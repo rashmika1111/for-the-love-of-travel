@@ -9,16 +9,16 @@ export default function PostCard({ post, width, height, variant = "default" }) {
       <motion.div 
         className="w-full lg:w-auto"
         style={{
-          width: width || '382px',
-          height: height || '146px',
-          borderRadius: '10px',
+          width: width === '100%' ? '100%' : (width || '450px'),
+          height: height || '180px',
+          borderRadius: '12px',
           overflow: 'hidden',
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
-          padding: '14px',
+          padding: '12px',
           cursor: 'pointer',
-          minHeight: '200px'
+          minHeight: width === '100%' ? '200px' : '240px'
         }}
         initial={{ scale: 1, y: 0 }}
         whileHover={{ 
@@ -70,15 +70,15 @@ export default function PostCard({ post, width, height, variant = "default" }) {
           marginBottom: 'auto'
         }}>
           <button style={{
-            width: '75px',
-            height: '24px',
+            width: width === '100%' ? '70px' : '90px',
+            height: width === '100%' ? '24px' : '30px',
             border: '1px solid #FFFFFF',
             borderRadius: '12px',
-            padding: '6px',
-            gap: '6px',
+            padding: width === '100%' ? '4px 8px' : '8px',
+            gap: '8px',
             background: 'transparent',
             color: '#FFFFFF',
-            fontSize: '9px',
+            fontSize: width === '100%' ? '9px' : '11px',
             fontWeight: '500',
             cursor: 'pointer',
             display: 'flex',
@@ -99,7 +99,7 @@ export default function PostCard({ post, width, height, variant = "default" }) {
           marginBottom: 'auto'
         }}>
           <h3 style={{
-            fontSize: '14px',
+            fontSize: width === '100%' ? '14px' : '16px',
             fontWeight: 'bold',
             color: '#FFFFFF',
             margin: 0,
@@ -109,7 +109,7 @@ export default function PostCard({ post, width, height, variant = "default" }) {
             {post.title}
           </h3>
           <p style={{
-            fontSize: '10px',
+            fontSize: width === '100%' ? '10px' : '12px',
             color: '#FFFFFF',
             margin: 0,
             lineHeight: '1.5',
@@ -126,12 +126,12 @@ export default function PostCard({ post, width, height, variant = "default" }) {
           alignItems: 'flex-end'
         }}>
           <div style={{
-            width: '153px',
-            height: '17px',
-            gap: '14px',
+            width: width === '100%' ? '140px' : '180px',
+            height: '20px',
+            gap: width === '100%' ? '8px' : '16px',
             display: 'flex',
             alignItems: 'center',
-            fontSize: '9px',
+            fontSize: width === '100%' ? '9px' : '11px',
             color: '#FFFFFF',
             textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.7)'
           }}>
@@ -149,7 +149,7 @@ export default function PostCard({ post, width, height, variant = "default" }) {
   // Original PostCard design
   return (
     <article className="relative overflow-hidden rounded-2xl shadow-smooth group h-full">
-      <div className="relative h-full min-h-[300px]">
+      <div className="relative h-full min-h-[360px]">
         <Image 
           src={post.image} 
           alt={post.title} 
@@ -160,21 +160,21 @@ export default function PostCard({ post, width, height, variant = "default" }) {
       </div>
 
       {/* Category Badge */}
-      <div className="absolute left-4 top-4">
-        <span className="inline-block px-3 py-1 text-xs font-medium text-white/80 bg-white/20 backdrop-blur-sm rounded-full uppercase tracking-wide">
+      <div className="absolute left-5 top-5">
+        <span className="inline-block px-4 py-2 text-sm font-medium text-white/80 bg-white/20 backdrop-blur-sm rounded-full uppercase tracking-wide">
           {post.category}
         </span>
       </div>
 
       {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <h3 className="text-xl font-bold leading-tight mb-2 drop-shadow-lg">
+      <div className="absolute bottom-0 left-0 right-0 p-7 text-white">
+        <h3 className="text-2xl font-bold leading-tight mb-3 drop-shadow-lg">
           {post.title}
         </h3>
-        <p className="text-white/90 text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-white/90 text-base leading-relaxed mb-5 line-clamp-2">
           {post.excerpt}
         </p>
-        <div className="flex items-center gap-2 text-xs text-white/80">
+        <div className="flex items-center gap-3 text-sm text-white/80">
           <span>{post.readTime}</span>
           <span className="text-white/40">|</span>
           <span>{post.date}</span>

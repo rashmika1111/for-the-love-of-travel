@@ -1,0 +1,58 @@
+warning: in the working copy of 'app/content/[slug]/ContentPageClient.tsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/app/content/[slug]/ContentPageClient.tsx b/app/content/[slug]/ContentPageClient.tsx[m
+[1mindex 7954ae8..9b8118b 100644[m
+[1m--- a/app/content/[slug]/ContentPageClient.tsx[m
+[1m+++ b/app/content/[slug]/ContentPageClient.tsx[m
+[36m@@ -6,7 +6,7 @@[m [mimport React, { useState, useEffect, useCallback } from "react";[m
+ import DynamicNavbar from "../../../components/DynamicNavbar";[m
+ import Footer from "../../../components/Footer";[m
+ import Newsletter from "../../../components/Newsletter";[m
+[31m-import ArticleWithPinnedImage from "../../../components/ArticleWithPinnedImage";[m
+[32m+[m[32mimport DynamicPinnedImageOverlay from "../../../components/DynamicPinnedImageOverlay";[m
+ import Comments from "../../../components/Comments";[m
+ import ContentSectionsRenderer from "../../../components/ContentSectionsRenderer";[m
+ import Breadcrumbs, { buildCategoryBreadcrumbs, generateBreadcrumbJsonLd } from "../../../components/Breadcrumbs";[m
+[36m@@ -205,12 +205,17 @@[m [mexport default function ContentPageClient({ post }: ContentPageClientProps) {[m
+     return post.contentSections?.find(section => section.type === 'popular-posts');[m
+   };[m
+ [m
+[31m-  /* ---------- Get content sections without hero, breadcrumb, and popular-posts ---------- */[m
+[32m+[m[32m  /* ---------- Get article with images section ---------- */[m
+[32m+[m[32m  const getArticleWithImagesSection = () => {[m
+[32m+[m[32m    return post.contentSections?.find(section => section.type === 'article');[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  /* ---------- Get content sections without hero, breadcrumb, and article ---------- */[m
+   const getContentSections = () => {[m
+     return post.contentSections?.filter(section => [m
+       section.type !== 'hero' && [m
+[31m-      section.type !== 'breadcrumb' && [m
+[31m-      section.type !== 'popular-posts'[m
+[32m+[m[32m      section.type !== 'breadcrumb' &&[m
+[32m+[m[32m      section.type !== 'article'[m
+     ) || [];[m
+   };[m
+ [m
+[36m@@ -432,8 +437,20 @@[m [mexport default function ContentPageClient({ post }: ContentPageClientProps) {[m
+         return null;[m
+       })()}[m
+ [m
+[31m-      {/* Article Content with Pinned Image Overlay */}[m
+[31m-      <ArticleWithPinnedImage />[m
+[32m+[m[32m      {/* Dynamic Article Content with Pinned Image Overlay */}[m
+[32m+[m[32m      {(() => {[m
+[32m+[m[32m        const articleSection = getArticleWithImagesSection();[m
+[32m+[m[32m        if (articleSection && articleSection.type === 'article') {[m
+[32m+[m[32m          return ([m
+[32m+[m[32m            <DynamicPinnedImageOverlay[m
+[32m+[m[32m              articleSection={articleSection}[m
+[32m+[m[32m              viewportVh={100}[m
+[32m+[m[32m              scrim={true}[m
+[32m+[m[32m            />[m
+[32m+[m[32m          );[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return null;[m
+[32m+[m[32m      })()}[m
+ [m
+       {/* Dynamic Content Sections */}[m
+       <ContentSectionsRenderer sections={getContentSections()} />[m
