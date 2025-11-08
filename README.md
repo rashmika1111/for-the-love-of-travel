@@ -1,58 +1,36 @@
-# For the Love of Travel — Homepage (Next.js + Tailwind)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This is a production-ready **Next.js (App Router) + Tailwind CSS** implementation of the homepage you provided. It mirrors the Figma layout: hero, featured stories, latest posts, popular videos, a feature banner, newsletter, and footer.
+## Getting Started
 
-## 🚀 Quickstart
+First, run the development server:
 
 ```bash
-# 1) Install deps
-npm install
-
-# 2) Run dev server
 npm run dev
-
-# 3) Open in your browser
-http://localhost:3000
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-> Requires Node 18+.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🧱 Stack
-- Next.js 14 (App Router)
-- Tailwind CSS
-- framer-motion + lucide-react (icons)
-- next/font for Google fonts
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-## 🗂 Structure
-```
-app/
-  layout.jsx     # Global HTML shell + fonts
-  page.jsx       # Homepage composed from components
-  globals.css    # Tailwind directives + helpers
-components/
-  Navbar.jsx
-  Hero.jsx
-  SectionHeader.jsx
-  PostCard.jsx
-  VideoCard.jsx
-  Newsletter.jsx
-  Footer.jsx
-lib/
-  data.js        # Sample data for cards
-public/
-  images/        # (place local assets here if desired)
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## 🧩 Notes
-- Images use the Unsplash CDN. If you replace with local assets, drop them into `public/images` and update the data in `lib/data.js`.
-- `next.config.js` allows `images.unsplash.com`. Add more domains if needed.
-- This project is **homepage-only**. You can expand into dynamic routes for articles/videos later.
+## Learn More
 
-## 🔧 Production Tips
-- Replace sample data with CMS content (Sanity, Strapi, etc.).
-- Add SEO metadata per route (Open Graph/JSON-LD).
-- Connect newsletter form action to your ESP (Mailchimp, ConvertKit, etc.).
-- Wire in Prebid.js + GAM ad slots as components when you’re ready.
-- Run Lighthouse and aim for 90+ across the board.
-```
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

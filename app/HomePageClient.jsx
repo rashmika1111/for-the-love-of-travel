@@ -1,16 +1,29 @@
 "use client";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import SectionHeader from "@/components/SectionHeader";
-import PostCard from "@/components/PostCard";
-import VideoCard from "@/components/VideoCard";
-import Newsletter from "@/components/Newsletter";
-import Footer from "@/components/Footer";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import SectionHeader from "../components/SectionHeader";
+import PostCard from "../components/PostCard";
+import VideoCard from "../components/VideoCard";
+import Newsletter from "../components/Newsletter";
+import Footer from "../components/Footer";
+import AuthPopup from "../components/AuthPopup";
+import ScrollCTA from "../components/ScrollCTA";
+import { useScrollTrigger } from "../hooks/useScrollTrigger";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { featuredPosts, latestPosts, videos } from "@/lib/data";
+import { featuredPosts, latestPosts, videos } from "../lib/data";
 
 export default function HomePageClient() {
+  const { 
+    showCTA, 
+    showPopup, 
+    closeCTA, 
+    closePopup, 
+    showAuthPopup,
+    resetCTA
+  } = useScrollTrigger(0.2, 1000); // Trigger at 20% scroll, 1 second delay
+
+
   return (
     <main>
       <Navbar />
@@ -144,32 +157,34 @@ export default function HomePageClient() {
           <div className="hidden lg:flex gap-6 w-full items-start">
             <div className="w-0 sm:w-4"></div>
             <div className="flex gap-6 flex-1 justify-center">
-            {latestPosts.map((src, i) => (
-              <motion.div 
-                key={i} 
-                className={`relative rounded-xl overflow-hidden shadow-lg h-80 w-64 group cursor-pointer flex-shrink-0 ${
-                  i === 1 ? 'mt-20' : i === 3 ? 'mt-16' : ''
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ 
-                  scale: 1.03,
-                  y: -5,
-                  transition: { 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 20
-                  }
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
+             {latestPosts.map((src, i) => (
+               <motion.div 
+                 key={i} 
+                 className={`relative rounded-xl overflow-hidden shadow-lg h-80 w-64 group cursor-pointer flex-shrink-0 ${
+                   i === 1 ? 'mt-20' : i === 3 ? 'mt-16' : ''
+                 }`}
+                 initial={{ opacity: 0, y: 20 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true, amount: 0.3 }}
+                 transition={{ duration: 0.5, delay: i * 0.1 }}
+                 whileHover={{ 
+                   scale: 1.03,
+                   y: -5,
+                   transition: { 
+                     type: "spring", 
+                     stiffness: 300, 
+                     damping: 20
+                   }
+                 }}
+                 whileTap={{ scale: 0.98 }}
+               >
                 <Image 
                   src={src} 
                   alt={`Latest post ${i+1}`} 
                   fill 
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-110" 
                 />
+                {/* Dark Gradient Overlay - Removed on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 group-hover:opacity-0 transition-opacity duration-300"></div>
               </motion.div>
             ))}
@@ -216,22 +231,10 @@ export default function HomePageClient() {
               imageSrc = cardImages[i];
               
               return (
-              <motion.article 
-                key={i}
-                className="bg-white rounded-xl overflow-hidden hover:bg-gray-50 transition-colors cursor-pointer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -5,
-                  transition: { 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 20
-                  }
-                }}
-              >
+               <article 
+                 key={i}
+                 className="bg-white rounded-xl overflow-hidden hover:bg-gray-50 transition-colors cursor-pointer"
+               >
                 {/* Image */}
                 <div className="h-48 rounded-t-xl overflow-hidden">
                   <Image 
@@ -258,29 +261,27 @@ export default function HomePageClient() {
                   </h3>
                   
                   {/* Metadata */}
-                  <div className="text-gray-600 text-xs space-y-1">
-                    <div>14 min read</div>
-                    <div>May 28, 2025</div>
-                  </div>
-                </div>
-              </motion.article>
+                   <div className="text-gray-600 text-xs space-y-1">
+                     <div>14 min read</div>
+                     <div>May 28, 2025</div>
+                   </div>
+                 </div>
+               </article>
               );
             })}
           </div>
 
           {/* View More Button */}
           <div className="flex justify-end">
-            <motion.button 
+            <button 
               className="px-4 py-2 text-white rounded-2xl font-medium transition-colors flex items-center gap-2"
               style={{ backgroundColor: '#3514EE' }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               View More
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </motion.button>
+            </button>
           </div>
         </div>
       </section>
@@ -314,12 +315,9 @@ export default function HomePageClient() {
               ];
               
               return (
-              <motion.article 
+              <article 
                 key={i}
                 className="bg-transparent rounded-xl overflow-hidden hover:bg-white/10 transition-colors cursor-pointer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
               >
                 {/* Video Image */}
                 <div className="h-48 rounded-xl overflow-hidden border-8 border-white group relative">
@@ -352,24 +350,22 @@ export default function HomePageClient() {
                     <div>5:30 · Dec 15, 2024</div>
                   </div>
                 </div>
-              </motion.article>
+              </article>
               );
             })}
           </div>
 
           {/* View More Button */}
           <div className="flex justify-end">
-            <motion.button 
+            <button 
               className="px-4 py-2 text-white rounded-2xl font-medium transition-colors flex items-center gap-2"
               style={{ backgroundColor: '#3514EE' }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               View More
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </motion.button>
+            </button>
           </div>
         </div>
       </section>
@@ -398,6 +394,42 @@ export default function HomePageClient() {
 
       <Newsletter />
       <Footer />
+      
+      {/* Scroll-triggered CTA */}
+      <ScrollCTA 
+        isVisible={showCTA} 
+        onJoinClick={showAuthPopup}
+        onDismiss={closeCTA}
+      />
+      
+      {/* Authentication Popup */}
+      <AuthPopup 
+        isOpen={showPopup} 
+        onClose={closePopup} 
+      />
+      
+      {/* Debug buttons - only in development */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed bottom-4 left-4 z-[10001] flex flex-col gap-2">
+          <button
+            onClick={resetCTA}
+            className="bg-red-500 text-white px-3 py-2 rounded text-xs"
+          >
+            Reset CTA
+          </button>
+          <button
+            onClick={() => {
+              console.log('Force showing CTA');
+              // Force show CTA for testing
+              sessionStorage.removeItem('auth-cta-shown');
+              window.location.reload();
+            }}
+            className="bg-blue-500 text-white px-3 py-2 rounded text-xs"
+          >
+            Show CTA
+          </button>
+        </div>
+      )}
     </main>
   );
 }
